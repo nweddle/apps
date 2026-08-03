@@ -8,6 +8,7 @@ Displays current gas prices for a selected [Costco](https://www.costco.com) ware
 * The applet will display the price for Regular (R), Premium (P), and if available, Diesel (D)
 * Choose the colour scheme for gas prices: all white, red for gas/petrol and green for diesel, or green for gas/petrol and red for diesel
 * Choose to display an icon (Costco logo or Gas Pump logo) or opening hours
+* Opening hours are captured when you select a warehouse, so re-select your warehouse if the station's hours change
 * Opening hours will reference your device timezone ($tz) to determine the current day and open status of the gas station
   * Device will display OPEN or CLOSED (based on current time) followed by the opening and closing times
   * Choose to display times in 24-hour clock (default) or 12-hour clock
@@ -22,6 +23,6 @@ Displays current gas prices for a selected [Costco](https://www.costco.com) ware
 
 ## Data Source
 
-Data is being sourced from the Costco Website Warehouse Finder API and as provided AS-IS only. Website updates made by Costco may cause this app to fail and may require updates. 
+Warehouse listings and gas station hours come from Costco's warehouse locator API, and prices come from Costco's gas price service. Both are provided AS-IS only. Website updates made by Costco may cause this app to fail and may require updates. 
 
 Even though gas (petrol) stations are available in other countries like Canada and the UK, only US warehouses reliably return prices at the present time.
