@@ -91,6 +91,12 @@ Updated for 2026 season
 
 v1.18
 Updated method of finding "Mens Singles" event when its not 1st event of the tournament
+
+v1.19
+Removed headers from the http.get request as it was producing 403 errors
+
+v1.20
+Reduced cache timeout for tournament fetching, this was causing the match data to keep the cached version for up to 3 hours
 """
 
 load("encoding/json.star", "json")
@@ -126,6 +132,8 @@ def main(config):
 
     TestID = "421-2026"
     SelectedTourneyID = config.get("TournamentList", TestID)
+
+    #SelectedTourneyID = SelectedTourneyID.split("_")[0]
     ShowCompleted = config.get("CompletedOn", "true")
     ShowScheduled = config.get("ScheduledOn", "false")
     Number_Events = len(ATP_JSON["events"])
@@ -1182,9 +1190,8 @@ def notStarted(EventIndex, JSON):
     return Display
 
 def get_schema():
-    TOURNEY_CACHE = 10800  # 3hrs
     ATP_SCORES_URL = "https://site.api.espn.com/apis/site/v2/sports/tennis/atp/scoreboard"
-    CacheData = get_cachable_data(ATP_SCORES_URL, TOURNEY_CACHE)
+    CacheData = get_cachable_data(ATP_SCORES_URL, 300)
     ATP_JSON = json.decode(CacheData)
 
     Number_Events = len(ATP_JSON["events"])
@@ -1316,9 +1323,7 @@ RotationOptions = [
 ]
 
 def get_cachable_data(url, timeout):
-    res = http.get(url = url, ttl_seconds = timeout, headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36",
-    })
+    res = http.get(url = url, ttl_seconds = timeout)
 
     if res.status_code != 200:
         fail("request to %s failed with status code: %d - %s" % (url, res.status_code, res.body()))
